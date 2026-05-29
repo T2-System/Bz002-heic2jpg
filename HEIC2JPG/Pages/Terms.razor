@@ -1,0 +1,224 @@
+@page "/terms"
+@inject ILocalizationService Localizer
+
+<PageTitle>@Localizer.GetString("Legal.TermsTitle")</PageTitle>
+
+<div class="container py-4 py-md-5">
+    <div class="mx-auto" style="max-width: 900px;">
+        <div class="mb-4">
+            <h1 class="mb-2">@Localizer.GetString("Legal.TermsTitle")</h1>
+            <p class="text-muted mb-3">@Localizer.GetString("Legal.LastUpdated", LegalDocuments.TermsVersion)</p>
+            <p class="lead mb-0">@GetIntro()</p>
+        </div>
+
+        @foreach (var legalSection in GetSections())
+        {
+            <section class="card shadow-sm border-0 mb-3">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3">@legalSection.Title</h2>
+                    <p class="mb-3">@legalSection.Body</p>
+
+                    @if (legalSection.Points.Length > 0)
+                    {
+                        <ul class="mb-0">
+                            @foreach (var point in legalSection.Points)
+                            {
+                                <li class="mb-2">@point</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+</div>
+
+@code {
+    private string GetIntro()
+    {
+        return GetLanguageFamily() switch
+        {
+            "en" => "This page summarizes the key rules for using NoTransfer Media Converter. Starting a conversion means you agree to these terms and any later material changes that are clearly announced in the app.",
+            "zh" => "本页概述了使用 NoTransfer Media Converter 时需要注意的主要规则。开始转换即表示您同意这些条款，以及应用内明确通知的重要更新。",
+            _ => "このページは、NoTransfer Media Converter を利用する際の重要なポイントを要約したものです。変換を開始した時点で、ここに記載した内容と、アプリ内で明示された重要な改定に同意したものとして取り扱います。"
+        };
+    }
+
+    private LegalSection[] GetSections()
+    {
+        return GetLanguageFamily() switch
+        {
+            "en" => GetEnglishSections(),
+            "zh" => GetChineseSections(),
+            _ => GetJapaneseSections()
+        };
+    }
+
+    private string GetLanguageFamily()
+    {
+        return Localizer.CurrentLanguage.StartsWith("en", StringComparison.OrdinalIgnoreCase) ? "en"
+            : Localizer.CurrentLanguage.StartsWith("zh", StringComparison.OrdinalIgnoreCase) ? "zh"
+            : "ja";
+    }
+
+    private static LegalSection[] GetJapaneseSections()
+    {
+        return
+        [
+            new(
+                "1. 適用範囲と同意",
+                "本アプリの利用条件は、ユーザーと株式会社 T2 System との間の本アプリ利用に適用されます。",
+                [
+                    "アプリへのアクセス、インストール、または利用開始によって、本アプリの利用条件に同意したものとして扱います。",
+                    "利用条件に重要な変更がある場合は、次回の変換開始前に再確認をお願いすることがあります。"
+                ]),
+            new(
+                "2. サービスの性質",
+                "本アプリは、画像・動画・音声ファイルの変換を主な目的とするブラウザアプリです。",
+                [
+                    "変換処理そのものは、原則としてユーザー端末のブラウザ内で行われます。",
+                    "ブラウザや端末の性能、対応状況、設定によって一部機能が利用できない場合があります。",
+                    "FFmpeg 関連スクリプトの読み込みや更新のため、unpkg や jsDelivr などの外部配信元へ通信する場合があります。"
+                ]),
+            new(
+                "3. ユーザーの責任",
+                "ユーザーは、自らの責任でファイルを選択し、変換結果を確認する必要があります。",
+                [
+                    "変換するファイルについて、必要な著作権その他の利用権限を有する場合にのみ利用してください。",
+                    "重要なファイルは、変換前後を問わず原本を別途保管してください。",
+                    "画質・音質・メタデータ保持・再生互換性は入力形式や環境により変動します。"
+                ]),
+            new(
+                "4. 禁止事項",
+                "法令や第三者の権利を侵害する利用は禁止されます。",
+                [
+                    "違法ファイルの変換、権利侵害、公序良俗違反にあたる利用。",
+                    "本アプリまたは外部サービスに過度の負荷を与える行為や不正アクセスの試行。",
+                    "適用されるオープンソースライセンスや外部サービス条件に反する利用。"
+                ]),
+            new(
+                "5. 保証の否認と責任制限",
+                "当方は、本アプリの継続性、完全性、特定目的適合性、変換結果の品質等を保証しません。",
+                [
+                    "変換失敗、品質低下、メタデータ欠落、互換性問題などが発生する場合があります。",
+                    "外部サービスの障害、仕様変更、提供停止により一部機能が使えなくなる場合があります。",
+                    "法令上免責できない場合を除き、当方の責任は直接かつ通常の損害に限られます。"
+                ]),
+            new(
+                "6. 提供者情報",
+                "本アプリの提供者は株式会社 T2 System です。",
+                [
+                    "所在地: 大阪府吹田市西の庄町7-20-101",
+                    $"お問い合わせ: {LegalDocuments.ContactUrl}"
+                ])
+        ];
+    }
+
+    private static LegalSection[] GetEnglishSections()
+    {
+        return
+        [
+            new(
+                "1. Scope and acceptance",
+                "These terms govern your use of NoTransfer Media Converter provided by T2 System Co., Ltd.",
+                [
+                    "Accessing, installing, or starting to use the app is treated as acceptance of these terms.",
+                    "If we make a material change, we may ask you to review and accept the updated version before your next conversion."
+                ]),
+            new(
+                "2. Nature of the service",
+                "The app is a browser-based tool for converting image, video, and audio files.",
+                [
+                    "The conversion work itself is generally performed inside your browser on your device.",
+                    "Some features depend on browser support, device performance, and local settings.",
+                    "The app may contact external CDNs such as unpkg and jsDelivr to load or refresh FFmpeg-related scripts."
+                ]),
+            new(
+                "3. Your responsibilities",
+                "You are responsible for the files you choose and for checking the results after conversion.",
+                [
+                    "Use the app only for files you have the right to process.",
+                    "Keep your own backup copies of important files before and after conversion.",
+                    "Output quality, metadata retention, and playback compatibility depend on the source file and environment."
+                ]),
+            new(
+                "4. Prohibited use",
+                "You may not use the app in ways that violate law or third-party rights.",
+                [
+                    "No illegal content processing, infringement, or misuse against public order and morals.",
+                    "No excessive load, abuse, or unauthorized access against the app or connected services.",
+                    "No use that conflicts with applicable open-source licenses or third-party service terms."
+                ]),
+            new(
+                "5. Disclaimers and limits of liability",
+                "We do not guarantee uninterrupted operation, fitness for a specific purpose, or the quality of conversion results.",
+                [
+                    "Conversion can fail, lose metadata, reduce quality, or produce files with limited compatibility.",
+                    "External service outages, policy changes, or shutdowns may affect some features.",
+                    "Where liability cannot be excluded by law, it is limited to direct and ordinary damages."
+                ]),
+            new(
+                "6. Provider information",
+                "The provider of this app is T2 System Co., Ltd.",
+                [
+                    "Address: 7-20-101 Nishinosho-cho, Suita, Osaka, Japan",
+                    $"Contact: {LegalDocuments.ContactUrl}"
+                ])
+        ];
+    }
+
+    private static LegalSection[] GetChineseSections()
+    {
+        return
+        [
+            new(
+                "1. 适用范围与同意",
+                "本条款适用于 T2 System Co., Ltd. 提供的 NoTransfer Media Converter 的使用。",
+                [
+                    "访问、安装或开始使用本应用，即视为您同意这些条款。",
+                    "如条款发生重要变更，我们可能会在您下次开始转换前要求再次确认。"
+                ]),
+            new(
+                "2. 服务性质",
+                "本应用是一个在浏览器中运行的图片、视频和音频转换工具。",
+                [
+                    "实际转换处理原则上在您设备上的浏览器内完成。",
+                    "部分功能取决于浏览器支持、设备性能和本地设置。",
+                    "为加载或刷新 FFmpeg 相关脚本，应用可能会连接 unpkg、jsDelivr 等外部 CDN。"
+                ]),
+            new(
+                "3. 用户责任",
+                "您需要自行选择文件，并在转换后自行确认结果是否符合预期。",
+                [
+                    "仅可处理您有权使用或转换的文件。",
+                    "重要文件请在转换前后自行保留备份。",
+                    "输出质量、元数据保留情况和播放兼容性会受到源文件和运行环境影响。"
+                ]),
+            new(
+                "4. 禁止行为",
+                "不得以违法或侵害第三方权利的方式使用本应用。",
+                [
+                    "不得处理违法内容、实施侵权或违反公序良俗。",
+                    "不得对本应用或相关服务施加过度负载、滥用或尝试未授权访问。",
+                    "不得以违反开源许可证或第三方服务条款的方式使用本应用。"
+                ]),
+            new(
+                "5. 免责声明与责任限制",
+                "我们不保证服务持续可用、适合特定目的，也不保证转换结果的质量。",
+                [
+                    "转换可能失败，也可能出现质量下降、元数据缺失或兼容性问题。",
+                    "外部服务的故障、规则变更或停止提供，可能影响部分功能。",
+                    "在法律不允许完全免责的范围内，我们的责任仅限于直接且通常发生的损害。"
+                ]),
+            new(
+                "6. 提供者信息",
+                "本应用的提供者为 T2 System Co., Ltd.",
+                [
+                    "地址: 日本大阪府吹田市西之庄町7-20-101",
+                    $"联系方式: {LegalDocuments.ContactUrl}"
+                ])
+        ];
+    }
+
+    private sealed record LegalSection(string Title, string Body, string[] Points);
+}

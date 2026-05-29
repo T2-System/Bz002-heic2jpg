@@ -33,7 +33,12 @@
     </div>
 
     <footer class="app-footer text-center py-4 text-sm text-gray-500">
-        <a href="licenses" class="hover:underline">OSS Licenses</a>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="terms" class="hover:underline">@Localizer.GetString("Footer.Terms")</a>
+            <a href="@LegalDocuments.PrivacyPolicyUrl" target="_blank" rel="noopener noreferrer" class="hover:underline">@Localizer.GetString("Footer.Privacy")</a>
+            <a href="licenses" class="hover:underline">@Localizer.GetString("Footer.Licenses")</a>
+            <a href="@LegalDocuments.ContactUrl" target="_blank" rel="noopener noreferrer" class="hover:underline">@Localizer.GetString("Footer.Contact")</a>
+        </div>
     </footer>
 </div>
 

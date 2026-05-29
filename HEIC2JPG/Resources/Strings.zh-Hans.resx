@@ -458,4 +458,69 @@
   <data name="Guide.LocalBadgeDetail" xml:space="preserve">
     <value>所有处理完全在浏览器内完成</value>
   </data>
+
+  <!-- Footer -->
+  <data name="Footer.Terms" xml:space="preserve">
+    <value>使用条款</value>
+  </data>
+  <data name="Footer.Privacy" xml:space="preserve">
+    <value>隐私说明</value>
+  </data>
+  <data name="Footer.Licenses" xml:space="preserve">
+    <value>OSS 许可</value>
+  </data>
+  <data name="Footer.Contact" xml:space="preserve">
+    <value>联系我们</value>
+  </data>
+
+  <!-- Legal -->
+  <data name="Legal.TermsTitle" xml:space="preserve">
+    <value>使用条款</value>
+  </data>
+  <data name="Legal.PrivacyTitle" xml:space="preserve">
+    <value>隐私说明</value>
+  </data>
+  <data name="Legal.LastUpdated" xml:space="preserve">
+    <value>最后更新: {0}</value>
+  </data>
+
+  <!-- Legal Consent -->
+  <data name="LegalConsent.Title" xml:space="preserve">
+    <value>请确认条款与隐私说明</value>
+  </data>
+  <data name="LegalConsent.Description" xml:space="preserve">
+    <value>首次开始转换前，请先查看以下重点内容。</value>
+  </data>
+  <data name="LegalConsent.SummaryTitle" xml:space="preserve">
+    <value>重点说明</value>
+  </data>
+  <data name="LegalConsent.SummaryPoints" xml:space="preserve">
+    <value>文件转换原则上在您的浏览器内完成
+加载 FFmpeg 相关脚本时，应用可能会连接 unpkg 和 jsDelivr
+不保证转换质量或兼容性；重要文件请保留原始备份
+仅可处理您有权使用或转换的文件</value>
+  </data>
+  <data name="LegalConsent.StorageTitle" xml:space="preserve">
+    <value>会保存在浏览器中的信息</value>
+  </data>
+  <data name="LegalConsent.StoragePoints" xml:space="preserve">
+    <value>您已同意的法律文档版本
+语言、主题等偏好设置
+由 Service Worker 和缓存管理的离线文件</value>
+  </data>
+  <data name="LegalConsent.ReadTerms" xml:space="preserve">
+    <value>查看条款</value>
+  </data>
+  <data name="LegalConsent.ReadPrivacy" xml:space="preserve">
+    <value>查看隐私说明</value>
+  </data>
+  <data name="LegalConsent.Checkbox" xml:space="preserve">
+    <value>我已阅读并同意《使用条款》和《隐私说明》</value>
+  </data>
+  <data name="LegalConsent.Cancel" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="LegalConsent.Agree" xml:space="preserve">
+    <value>同意并开始转换</value>
+  </data>
 </root>

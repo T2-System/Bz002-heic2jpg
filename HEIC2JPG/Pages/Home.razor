@@ -47,7 +47,7 @@
                     <div class="queue-header">
                         <h3>@Localizer.GetString("FileQueue.Title") (@files.Count)</h3>
                         <div class="queue-controls">
-                            <button class="btn btn-primary" @onclick="StartConversion" disabled="@isProcessing">
+                            <button class="btn btn-primary" @onclick="BeginConversionAsync" disabled="@isProcessing">
                                 <HeroIcon Name="play" Class="w-4 h-4 inline-block mr-1" /> @Localizer.GetString("Button.Start")
                             </button>
                             <button class="btn btn-download-all" @onclick="DownloadAll"
@@ -169,6 +169,12 @@
             </div>
         </div>
     </div>
+
+    @if (showLegalConsent)
+    {
+        <LegalConsentDialog OnClose="CloseLegalConsentDialogAsync"
+                            OnAccept="AcceptLegalConsentAsync" />
+    }
 </div>
 
 @code {
@@ -187,6 +193,7 @@
     private bool isProcessing = false;
     private bool isSettingsExpanded = false; // デフォルトで折りたたみ（初心者向けにシンプルな初期表示）
     private bool isGuideExpanded = false; // 使い方ガイドの初期状態（初心者が必要時に展開）
+    private bool showLegalConsent = false;
     private ElementReference dropZoneElement;
 
     private async Task ScrollToDropZone()
@@ -260,18 +267,84 @@
         StateHasChanged();
     }
 
-    private async Task StartConversion()
+    private async Task BeginConversionAsync()
+    {
+        var pendingFiles = files.Where(f => f.Status == ConversionStatus.Pending).ToList();
+        if (!pendingFiles.Any())
+        {
+            return;
+        }
+
+        if (!await HasAcceptedCurrentLegalVersionAsync())
+        {
+            showLegalConsent = true;
+            StateHasChanged();
+            return;
+        }
+
+        await StartConversionCoreAsync(pendingFiles);
+    }
+
+    private async Task StartConversionCoreAsync(List<ConvertFile> pendingFiles)
     {
         isProcessing = true;
         try
         {
-            var pendingFiles = files.Where(f => f.Status == ConversionStatus.Pending).ToList();
             await ConvertService.ConvertFilesAsync(pendingFiles, settings, OnProgressUpdate);
         }
         finally
         {
             isProcessing = false;
             StateHasChanged();
+        }
+    }
+
+    private Task CloseLegalConsentDialogAsync()
+    {
+        showLegalConsent = false;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private async Task AcceptLegalConsentAsync()
+    {
+        showLegalConsent = false;
+        await StoreLegalConsentAsync();
+
+        var pendingFiles = files.Where(f => f.Status == ConversionStatus.Pending).ToList();
+        if (!pendingFiles.Any())
+        {
+            StateHasChanged();
+            return;
+        }
+
+        await StartConversionCoreAsync(pendingFiles);
+    }
+
+    private async Task<bool> HasAcceptedCurrentLegalVersionAsync()
+    {
+        try
+        {
+            var acceptedVersion = await JS.InvokeAsync<string?>("localStorage.getItem", LegalDocuments.ConsentVersionStorageKey);
+            return string.Equals(acceptedVersion, LegalDocuments.ConsentVersion, StringComparison.Ordinal);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Legal consent check failed: {ex.Message}");
+            return false;
+        }
+    }
+
+    private async Task StoreLegalConsentAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("localStorage.setItem", LegalDocuments.ConsentVersionStorageKey, LegalDocuments.ConsentVersion);
+            await JS.InvokeVoidAsync("localStorage.setItem", LegalDocuments.ConsentAcceptedAtStorageKey, DateTimeOffset.UtcNow.ToString("O"));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Legal consent persistence failed: {ex.Message}");
         }
     }
 

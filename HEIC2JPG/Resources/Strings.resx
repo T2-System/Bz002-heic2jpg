@@ -458,4 +458,69 @@
   <data name="Guide.LocalBadgeDetail" xml:space="preserve">
     <value>すべての処理はブラウザ内で完結します</value>
   </data>
+
+  <!-- Footer -->
+  <data name="Footer.Terms" xml:space="preserve">
+    <value>利用規約</value>
+  </data>
+  <data name="Footer.Privacy" xml:space="preserve">
+    <value>プライバシー通知</value>
+  </data>
+  <data name="Footer.Licenses" xml:space="preserve">
+    <value>OSS Licenses</value>
+  </data>
+  <data name="Footer.Contact" xml:space="preserve">
+    <value>お問い合わせ</value>
+  </data>
+
+  <!-- Legal -->
+  <data name="Legal.TermsTitle" xml:space="preserve">
+    <value>利用規約</value>
+  </data>
+  <data name="Legal.PrivacyTitle" xml:space="preserve">
+    <value>プライバシー通知</value>
+  </data>
+  <data name="Legal.LastUpdated" xml:space="preserve">
+    <value>最終更新: {0}</value>
+  </data>
+
+  <!-- Legal Consent -->
+  <data name="LegalConsent.Title" xml:space="preserve">
+    <value>利用規約とプライバシーの確認</value>
+  </data>
+  <data name="LegalConsent.Description" xml:space="preserve">
+    <value>初回の変換前に、重要なポイントをご確認ください。</value>
+  </data>
+  <data name="LegalConsent.SummaryTitle" xml:space="preserve">
+    <value>主なポイント</value>
+  </data>
+  <data name="LegalConsent.SummaryPoints" xml:space="preserve">
+    <value>ファイルの変換処理は原則としてブラウザ内で行われます
+FFmpeg 関連スクリプトの読み込み時に、unpkg や jsDelivr へ通信する場合があります
+変換結果の品質や互換性は保証されません。重要なファイルは原本を保管してください
+変換するファイルについて必要な権利を持つ場合にのみ利用してください</value>
+  </data>
+  <data name="LegalConsent.StorageTitle" xml:space="preserve">
+    <value>ブラウザに保存される情報</value>
+  </data>
+  <data name="LegalConsent.StoragePoints" xml:space="preserve">
+    <value>同意済みの法的文書バージョン
+表示言語やテーマなどの設定
+Service Worker とキャッシュによるオフライン用ファイル</value>
+  </data>
+  <data name="LegalConsent.ReadTerms" xml:space="preserve">
+    <value>利用規約を読む</value>
+  </data>
+  <data name="LegalConsent.ReadPrivacy" xml:space="preserve">
+    <value>プライバシー通知を読む</value>
+  </data>
+  <data name="LegalConsent.Checkbox" xml:space="preserve">
+    <value>利用規約とプライバシー通知を確認し、これに同意します</value>
+  </data>
+  <data name="LegalConsent.Cancel" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="LegalConsent.Agree" xml:space="preserve">
+    <value>同意して変換を開始</value>
+  </data>
 </root>

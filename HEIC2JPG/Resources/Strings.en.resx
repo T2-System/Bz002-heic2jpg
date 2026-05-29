@@ -458,4 +458,69 @@
   <data name="Guide.LocalBadgeDetail" xml:space="preserve">
     <value>All processing is done entirely within your browser</value>
   </data>
+
+  <!-- Footer -->
+  <data name="Footer.Terms" xml:space="preserve">
+    <value>Terms</value>
+  </data>
+  <data name="Footer.Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Footer.Licenses" xml:space="preserve">
+    <value>OSS Licenses</value>
+  </data>
+  <data name="Footer.Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+
+  <!-- Legal -->
+  <data name="Legal.TermsTitle" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="Legal.PrivacyTitle" xml:space="preserve">
+    <value>Privacy Notice</value>
+  </data>
+  <data name="Legal.LastUpdated" xml:space="preserve">
+    <value>Last updated: {0}</value>
+  </data>
+
+  <!-- Legal Consent -->
+  <data name="LegalConsent.Title" xml:space="preserve">
+    <value>Review terms and privacy</value>
+  </data>
+  <data name="LegalConsent.Description" xml:space="preserve">
+    <value>Please review the key points before your first conversion.</value>
+  </data>
+  <data name="LegalConsent.SummaryTitle" xml:space="preserve">
+    <value>Key points</value>
+  </data>
+  <data name="LegalConsent.SummaryPoints" xml:space="preserve">
+    <value>File conversion is generally performed inside your browser
+The app can contact unpkg and jsDelivr when loading FFmpeg-related scripts
+Conversion quality and compatibility are not guaranteed; keep original backups of important files
+Use the app only for files you have the right to process</value>
+  </data>
+  <data name="LegalConsent.StorageTitle" xml:space="preserve">
+    <value>Stored in your browser</value>
+  </data>
+  <data name="LegalConsent.StoragePoints" xml:space="preserve">
+    <value>The legal document version you accepted
+Preferences such as language and theme
+Offline files managed through Service Worker and cache</value>
+  </data>
+  <data name="LegalConsent.ReadTerms" xml:space="preserve">
+    <value>Read terms</value>
+  </data>
+  <data name="LegalConsent.ReadPrivacy" xml:space="preserve">
+    <value>Read privacy notice</value>
+  </data>
+  <data name="LegalConsent.Checkbox" xml:space="preserve">
+    <value>I have reviewed and agree to the Terms of Service and Privacy Notice</value>
+  </data>
+  <data name="LegalConsent.Cancel" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="LegalConsent.Agree" xml:space="preserve">
+    <value>Agree and start conversion</value>
+  </data>
 </root>

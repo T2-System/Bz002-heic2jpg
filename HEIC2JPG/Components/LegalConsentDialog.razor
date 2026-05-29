@@ -1,0 +1,129 @@
+@inject ILocalizationService Localizer
+
+<div class="legal-consent-overlay" @onclick="OnOverlayClick">
+    <div class="legal-consent-dialog"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="legal-consent-title"
+         aria-describedby="legal-consent-description"
+         tabindex="-1"
+         @ref="dialogElement"
+         @onclick:stopPropagation="true"
+         @onkeydown="HandleKeyDown">
+
+        <div class="legal-consent-header">
+            <div>
+                <h2 id="legal-consent-title">@Localizer.GetString("LegalConsent.Title")</h2>
+                <p id="legal-consent-description">@Localizer.GetString("LegalConsent.Description")</p>
+            </div>
+            <button type="button"
+                    class="close-button"
+                    aria-label="@Localizer.GetString("Button.Close")"
+                    @onclick="Close">
+                <HeroIcon Name="x-mark" Class="w-6 h-6" />
+            </button>
+        </div>
+
+        <div class="legal-consent-body">
+            <section class="legal-consent-section">
+                <h3>@Localizer.GetString("LegalConsent.SummaryTitle")</h3>
+                <ul class="legal-consent-list">
+                    @foreach (var point in GetLines("LegalConsent.SummaryPoints"))
+                    {
+                        <li>@point</li>
+                    }
+                </ul>
+            </section>
+
+            <section class="legal-consent-section">
+                <h3>@Localizer.GetString("LegalConsent.StorageTitle")</h3>
+                <ul class="legal-consent-list">
+                    @foreach (var point in GetLines("LegalConsent.StoragePoints"))
+                    {
+                        <li>@point</li>
+                    }
+                </ul>
+            </section>
+
+            <div class="legal-consent-links">
+                <a href="terms" target="_blank" rel="noopener noreferrer">@Localizer.GetString("LegalConsent.ReadTerms")</a>
+                <a href="@LegalDocuments.PrivacyPolicyUrl" target="_blank" rel="noopener noreferrer">@Localizer.GetString("LegalConsent.ReadPrivacy")</a>
+            </div>
+
+            <label class="legal-consent-checkbox">
+                <input type="checkbox" @bind="isAccepted" />
+                <span>@Localizer.GetString("LegalConsent.Checkbox")</span>
+            </label>
+        </div>
+
+        <div class="legal-consent-actions">
+            <button type="button" class="btn btn-outline-secondary" @onclick="Close">
+                @Localizer.GetString("LegalConsent.Cancel")
+            </button>
+            <button type="button"
+                    class="btn btn-primary"
+                    disabled="@(!isAccepted)"
+                    @onclick="AcceptAsync">
+                @Localizer.GetString("LegalConsent.Agree")
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool isAccepted;
+    private ElementReference dialogElement;
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public EventCallback OnAccept { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // 表示直後にダイアログへフォーカスを移し、Escape キーとフォーカストラップの起点にする
+            await dialogElement.FocusAsync();
+        }
+    }
+
+    private string[] GetLines(string key)
+    {
+        return Localizer.GetString(key)
+            .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
+
+    private Task Close()
+    {
+        isAccepted = false;
+        return OnClose.InvokeAsync();
+    }
+
+    private async Task AcceptAsync()
+    {
+        if (!isAccepted)
+        {
+            return;
+        }
+
+        await OnAccept.InvokeAsync();
+        isAccepted = false;
+    }
+
+    private Task OnOverlayClick()
+    {
+        return Close();
+    }
+
+    private Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            return Close();
+        }
+
+        return Task.CompletedTask;
+    }
+}
